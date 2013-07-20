@@ -11,7 +11,7 @@ import struct
 import lightapi
 import colorsys
 
-mult = 2
+mult = 10
 
 def loadData():
   data_size=20000
@@ -43,14 +43,6 @@ def fft(theFile, offset, frate):
   bin3Freq = analBin(w[band2:], frate)
   return (bin1Freq, bin2Freq, bin3Freq)
 
-def b2j(b):
-  if b:
-    return True
-  else:
-    return False
-
-lightMap = {'1':'2', '2':'1', '3':'3'}
-
 if __name__ == '__main__':
 
   api = lightapi.connect()
@@ -64,36 +56,38 @@ if __name__ == '__main__':
     lightapi.setLightState(api, i, state)
 
   offset = 0
+    r = 0.0
+    g = 0.0
+    b = 1.0
   while True:
     offset += 1024 * mult
     if offset > len(filedata) - 1024 * mult:
       offset = 0
     analyser = fft(filedata, offset, frameRate)
 
-    for i in lights.keys():
-      i = lightMap[i]
+    r = 0.0
+    g = 0.0
+    b = 1.0
 
+    for i in lights.keys():
       light = lights[i]
       j = int(i)
 
+      (h,s,b) = colorsys.rgb_to_hsv(r, g, b)
+      h *= 65535
+      s *= 255
+      b *= 255
       state = lightapi.getLightState(api, i)
       
-      d = analyser[j - 1]
-      h = int(d * 1024)
-      s = 255
-      b = 128
+      #d = analyser[j - 1]
+      #h = int(d * 10)
+      #h = int(h)
+      print h,s,b
   
-      state['on'] = b2j(d > 2)
-
       state['hue'] = int(h)
       state['sat'] = int(s)
       state['bri'] = int(b)
-
-      print (h,s,b), state['on'],
-
       lightapi.setLightState(api, i, state)
-
-    print
 
     time.sleep(0.1 * mult)
 

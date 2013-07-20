@@ -21,6 +21,8 @@ if __name__=='__main__':
     note1=[math.sin(2*math.pi*freq*((x/frate))) for x in range(data_size)]
     note2=[math.sin(2*math.pi*freq*((4*x/frate))) for x in range(data_size)]
     silence=[0 for x in range(data_size*4)]
+    note1 = note
+    note2 = note
     data = note + silence + note + silence + note1 + silence + note1 + silence + note2 + silence + note2 + silence
     wav_file=wave.open(fname, 'w')    
     wav_file.setparams((nchannels,sampwidth,framerate,nframes,comptype,compname))
