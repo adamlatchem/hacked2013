@@ -1,7 +1,9 @@
 #!/usr/bin/env python
-import json, httplib
+import json
+import httplib
 import sys
 import time
+import random
 
 def connect():
   api = httplib.HTTPConnection('192.168.2.208', 80)
@@ -23,12 +25,19 @@ def setLightState(api, id, state):
 
 api = connect()
 lights = getLights(api)
+for i in lights.keys():
+    state = getLightState(api, i)
+    state['transitiontime'] = 1
+    setLightState(api, i, state)
+
 while True:
   for i in lights.keys():
     print 'turn on ' + str(i)
     light = lights[i]
     state = getLightState(api, i)
     state['on'] = True
+    h = random.random() * 65535.0
+    state['hue'] = int(h)
     setLightState(api, i, state)
     time.sleep(1.0/4.0)
   for i in lights.keys():
