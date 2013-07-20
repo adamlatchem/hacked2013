@@ -1,48 +1,30 @@
 #!/usr/bin/env python
-import json
-import httplib
 import sys
 import time
 import random
 
-def connect():
-  api = httplib.HTTPConnection('192.168.2.208', 80)
-  api.connect()
-  api.url = '/api/1234567890/'
-  return api
+import lightapi
 
-def getLights(api):
-  api.request('GET', api.url + 'lights', json.dumps({}))
-  return json.loads(api.getresponse().read())
-
-def getLightState(api, id):
-  api.request('GET', api.url + 'lights/' + str(id))
-  return json.loads(api.getresponse().read())
-
-def setLightState(api, id, state):
-  api.request('PUT', api.url + 'lights/' + str(id) + '/state', json.dumps(state))
-  return json.loads(api.getresponse().read())
-
-api = connect()
-lights = getLights(api)
+api = lightapi.connect()
+lights = lightapi.getLights(api)
 for i in lights.keys():
-    state = getLightState(api, i)
+    state = lightapi.getLightState(api, i)
     state['transitiontime'] = 1
-    setLightState(api, i, state)
+    lightapi.setLightState(api, i, state)
 
 while True:
   for i in lights.keys():
     print 'turn on ' + str(i)
     light = lights[i]
-    state = getLightState(api, i)
+    state = lightapi.getLightState(api, i)
     state['on'] = True
     h = random.random() * 65535.0
     state['hue'] = int(h)
-    setLightState(api, i, state)
+    lightapi.setLightState(api, i, state)
     time.sleep(1.0/4.0)
   for i in lights.keys():
     print 'turn on ' + str(i)
     light = lights[i]
-    state = getLightState(api, i)
+    state = lightapi.getLightState(api, i)
     state['on'] = False
-    setLightState(api, i, state)
+    lightapi.setLightState(api, i, state)
