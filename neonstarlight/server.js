@@ -39,7 +39,6 @@ http.createServer(
         y = queryObj.y;
         res.end('<html><body>dude</body></html>');
       } catch (e) {
-        console.log ( e );
       }
     }
 ).listen(80);
@@ -54,7 +53,6 @@ mkWave = function() {
     b[i] =  + (v * 120);
   }
   fs.appendFile('thermin.raw', b, function (err) {
-    console.log(err);
   });
 }
 
