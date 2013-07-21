@@ -1,6 +1,5 @@
 var fs = require('fs');
 var buf = require('buffer').Buffer;
-var port = 8080;
 var freq = 880;
 var frate = 44100;
 var b = new Buffer(frate / 100);
@@ -46,13 +45,13 @@ http.createServer(
 ).listen(80);
 
 mkWave = function() {
-  setTimeout(mkWave, 8);
+  setTimeout(mkWave, 10);
 
   for(var i = 0; i < frate / 100; ++i)
   {
     var v = x * Math.sin(2*Math.PI*freq*y*(t/frate));
     t = t + 1;
-    b[i] = 128 + (v * 128);
+    b[i] =  + (v * 120);
   }
   fs.appendFile('thermin.raw', b, function (err) {
     console.log(err);
