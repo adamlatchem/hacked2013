@@ -4,7 +4,8 @@ import httplib
 import sys
 
 def connect():
-  api = httplib.HTTPConnection('192.168.2.208', 80)
+  #api = httplib.HTTPConnection('192.168.2.208', 80)
+  api = httplib.HTTPConnection('192.168.1.244', 80)
   api.connect()
   api.url = '/api/1234567890/'
   return api

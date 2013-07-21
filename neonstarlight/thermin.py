@@ -75,6 +75,10 @@ def analBin(w, frate):
     if m < w[i]:
       m = w[i]
       j = i
+  if len(w) == 0:
+    return (0, 0)
+  if w[j] <= 0:
+    return (0, 0)
   return (max(0, math.log10(w[j])), j / float(len(w)))
 
 def plotit(w):
@@ -138,6 +142,7 @@ if __name__ == '__main__':
   api = lightapi.connect()
 
   lights = lightapi.getLights(api)
+  print lights
   for i in lights.keys():
     state = lightapi.getLightState(api, i)
     state['transitiontime'] = 1
@@ -168,6 +173,8 @@ if __name__ == '__main__':
    for k in l:
      
      j = int(k) - 1
+     if j > 2:
+       continue
      i = lMap[k]
 
      state = lightapi.getLightState(api, i)

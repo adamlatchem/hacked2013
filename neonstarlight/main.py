@@ -24,7 +24,7 @@ f1 = 0.08
 f2 = 0.18
 
 # number of 100ms chunks
-mult = 1
+mult = 2
 
 def key():
     i,o,e = select.select([sys.stdin],[],[],0.0001)
@@ -186,8 +186,11 @@ if __name__ == '__main__':
    l = lights.keys()
    l.sort()
    for k in l:
-     
+     print 'light ' + k
+
      j = int(k) - 1
+     if j > 2:
+       continue
      i = lMap[k]
 
      state = lightapi.getLightState(api, i)
