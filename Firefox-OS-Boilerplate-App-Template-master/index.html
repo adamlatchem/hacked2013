@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<!-- 
+    Exchange the line above for this to enable offline support
+    <html manifest="manifest.appcache">
+
+    Please make your homework before doing this:
+        http://www.alistapart.com/articles/application-cache-is-a-douchebag/
+        http://appcachefacts.info
+    
+ -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="css/base.css"/>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <title>Hued Home</title>
+</head>
+
+<body>
+
+    <header>
+        <h1>Hued Home</h1> 
+        <div id="install">
+            <button>Install</button>
+        </div>
+
+        <!-- Icon that will indicate whether you are online or offline - enabled if you are using offline/appcache (see above) -->
+        <div id="online-status" title="Online"></div>
+    </header>
+
+    <div id="main">
+
+	    <h2>Accelerometer</h2>
+	    <div id="xaxis"></div>
+	    <div id="yaxis"></div>
+
+	    <img src="http://25.media.tumblr.com/e647cf8b51c7381c6cd45bb723219834/tumblr_mq9iq6PFEH1qa68j2o1_500.gif" style="display:none;" id="ringing" alt="ringing" title="ringing" />
+
+    </div>
+ <script type="text/javascript" src="js/base.js"></script>
+    <script type="text/javascript" src="js/webapp.js"></script>
+    <script type="text/javascript" src="js/offline.js"></script>
+
+
+    <script>
+   var createNotification = function createNotification() {
+    var notification = navigator.mozNotification.createNotification('Doorbell',
+      'Someone is at the door',
+      'http://hacked.io');
+
+    notification.show();
+  };
+
+  var t = null;
+  function foo(){
+$.getJSON('https://project1.firebaseio.com/state.json', function (data) {
+    
+	t = data;
+	if (t == "off"){
+	}
+	if (t == "on"){
+		$("#ringing").toggle();
+createNotification();
+	}
+  setTimeout(foo, 2000);
+});
+
+}
+foo();
+
+
+    </script>
+
+</body>
+</html>
