@@ -1,6 +1,8 @@
 hacked2013
 ==========
 
+HackerLeague summary: https://www.hackerleague.org/hackathons/hacked/hacks/hued-home
+
 We've got the Philips Hue lights up and running/
 
 use mkUser.py to initially connect after setting IP in lightsapi.py and pressing Link button
